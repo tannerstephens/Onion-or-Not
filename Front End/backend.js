@@ -13,8 +13,8 @@ function getChal()
 
 function update(json)
 {
+	var h = document.getElementById("hl");	
 	chal = JSON.parse(json);
-	var h = document.getElementById("hl");
 	h.style.color = "black";
 	h.innerHTML = chal['headline'];
 }
