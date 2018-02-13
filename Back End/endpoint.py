@@ -16,13 +16,26 @@ with open(".key") as f:
 reddit = praw.Reddit(client_id=user_id, client_secret=user_secret, user_agent="Onion or Not")
 nottheonion = reddit.subreddit("nottheonion")
 
+fakes = []
+
+for post in nottheonion.new(limit=1000):
+	if not post.stickied:
+		fakes.append(post.title)
+
 last = datetime.datetime.now()
 
 def update_feed():
 	headlines = []
+	fakes = []
 
 	for item in onion_feed['items']:
         	headlines.append(item.title)
+			
+	for post in nottheonion.new(limit=1000):
+		if not post.stickied:
+			fakes.append(post.title)
+			
+	last = datetime.datetime.now()
 
 	return
 
@@ -30,7 +43,7 @@ def get_onion():
 	return random.choice(headlines)
 	
 def get_fake():
-	return nottheonion.random().title
+	return random.choice(fakes)
 
 def chal():
 	if (datetime.datetime.now() - last).days > 0:
@@ -56,4 +69,5 @@ def endpoint():
 	return out
 	
 if __name__ == "__main__":
+	print(len(fakes))
 	app.run(host='127.0.0.1', port=4867)
