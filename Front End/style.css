@@ -1,0 +1,71 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #f7f7f7;
+}
+
+
+#onion {
+    background-color: white; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	border: 2px solid #4CAF50;
+}
+
+#not {
+    background-color: white; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	border: 2px solid #4CAF50;
+}
+
+
+#fore {
+	width: 100%;
+    height: 60%;
+    max-height: 100%;
+	
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+#hl {
+	font-size: 5vmin;
+	margin: auto;
+	font-family: 'Muli', sans-serif;
+	padding: 5%;
+	text-align: center;
+}
+
+#ans {
+	margin: auto;
+	font-family: 'Muli', sans-serif;
+}
+
+input[type=button] {
+	margin: auto;
+	font-family: 'Muli', sans-serif;
+	font-size: 3vmin;
+	min-width: 12.5vw;
+}
+
+form {
+	margin: auto;
+}
