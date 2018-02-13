@@ -1,21 +1,22 @@
-import random, feedparser, praw, datetime, json, html
+import random, feedparser, praw, datetime, json, html, time
 from flask import Flask
 
 onion_url = "http://www.theonion.com/rss"
 onion_feed = feedparser.parse( onion_url )
+
 headlines = []
 
 for item in onion_feed['items']:
 	headlines.append(item.title)
 
-with oepn(".key") as f:
+with open(".key") as f:
 	user_id = f.readline().strip()
 	user_secret = f.readline().strip()
 
 reddit = praw.Reddit(client_id=user_id, client_secret=user_secret, user_agent="Onion or Not")
 nottheonion = reddit.subreddit("nottheonion")
 
-time = datetime.datetime.now()
+last = datetime.datetime.now()
 
 def update_feed():
 	headlines = []
@@ -32,7 +33,7 @@ def get_fake():
 	return nottheonion.random().title
 
 def chal():
-	if (datetime.datetime.now() - time).days > 0:
+	if (datetime.datetime.now() - last).days > 0:
 		update_feed()
 	
 	onion = bool(random.randint(0,1))
@@ -50,7 +51,9 @@ app = Flask(__name__)
 
 @app.route('/oon/endpoint/')
 def endpoint():
-	return chal()
+	out = chal()
+	time.sleep(1)
+	return out
 	
 if __name__ == "__main__":
 	app.run(host='127.0.0.1', port=4867)

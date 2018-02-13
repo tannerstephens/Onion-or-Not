@@ -1,0 +1,51 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #f7f7f7;
+}
+
+#fore {
+	width: 90%;
+    max-height: 90%;
+	
+	margin: 0;
+	padding: 5%;
+}
+
+#ans {
+	margin: auto;
+	font-family: 'Muli', sans-serif;
+}
+
+input[type=button] {
+	margin: auto;
+	font-family: 'Muli', sans-serif;
+	font-size: 6vmin;
+	min-width: 12.5vw;
+	font-weight: bold;
+}
+
+h1, p {
+	font-family: 'Muli', sans-serif;
+}
+
+form {
+	margin: auto;
+}
+
+a:link, a:visited, a:active {
+	color: black;
+	font-family: 'Muli', sans-serif;
+}
+
+a:hover {
+	color: #990000;
+}
+
+a.footer {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 1.5%;
+}

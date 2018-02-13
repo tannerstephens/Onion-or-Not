@@ -62,10 +62,27 @@ html, body {
 input[type=button] {
 	margin: auto;
 	font-family: 'Muli', sans-serif;
-	font-size: 3vmin;
+	font-size: 6vmin;
 	min-width: 12.5vw;
+	font-weight: bold;
 }
 
 form {
 	margin: auto;
+}
+
+a:link, a:visited, a:active {
+	color: black;
+	font-family: 'Muli', sans-serif;
+}
+
+a:hover {
+	color: #990000;
+}
+
+a.footer {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 1.5%;
 }
