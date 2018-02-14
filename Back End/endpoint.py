@@ -1,73 +1,40 @@
-import random, feedparser, praw, datetime, json, html, time
+import datetime, json, oniony, random, sched, time
 from flask import Flask
 
-onion_url = "http://www.theonion.com/rss"
-onion_feed = feedparser.parse( onion_url )
+onion = oniony.onion()
+onion.populate(1000)
 
-headlines = []
+notonion = oniony.notonion()
+notonion.populate()
 
-for item in onion_feed['items']:
-	headlines.append(item.title)
+s = sched.scheduler(time.time, time.sleep)
 
-with open(".key") as f:
-	user_id = f.readline().strip()
-	user_secret = f.readline().strip()
-
-reddit = praw.Reddit(client_id=user_id, client_secret=user_secret, user_agent="Onion or Not")
-nottheonion = reddit.subreddit("nottheonion")
-
-fakes = []
-
-for post in nottheonion.new(limit=1000):
-	if not post.stickied:
-		fakes.append(post.title)
-
-last = datetime.datetime.now()
-
-def update_feed():
-	headlines = []
-	fakes = []
-
-	for item in onion_feed['items']:
-        	headlines.append(item.title)
-			
-	for post in nottheonion.new(limit=1000):
-		if not post.stickied:
-			fakes.append(post.title)
-			
-	last = datetime.datetime.now()
-
-	return
-
-def get_onion():
-	return random.choice(headlines)
+def reload():
+    onion.refresh()
+    notonion.refresh()
+    s.enter(86400, 1, reload)
 	
-def get_fake():
-	return random.choice(fakes)
 
 def chal():
-	if (datetime.datetime.now() - last).days > 0:
-		update_feed()
+    real = bool(random.randint(0,1))
 	
-	onion = bool(random.randint(0,1))
+    if real:
+        title = onion.random_hl()
+    else:
+        title = notonion.random_hl()
+
+    title = title.encode("ascii", "ignore").decode()
 	
-	if onion:
-		title = get_onion()
-	else:
-		title = get_fake()
-	#print(title)
-	title = html.unescape(title).encode("ascii", "ignore").decode()
-	
-	return json.dumps({"headline" : title, "onion" : onion})
+    return json.dumps({"headline" : title, "onion" : real})
+
+s.enter(86400, 1, reload)
 	
 app = Flask(__name__)
 
 @app.route('/oon/endpoint/')
 def endpoint():
-	out = chal()
-	time.sleep(1)
-	return out
+    out = chal()
+    return out
 	
 if __name__ == "__main__":
-	print(len(fakes))
-	app.run(host='127.0.0.1', port=4867)
+    app.run(host='127.0.0.1', port=4867)
