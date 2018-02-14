@@ -29,5 +29,5 @@ function check(button)
 		ans.style.color = "red";
 		ans.innerHTML = "Incorrect."
 	}
-	getChal();
+	setTimeout(getChal, 1000);
 }
