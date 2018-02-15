@@ -6,6 +6,7 @@ class onion:
         self.url = "https://www.theonion.com/"
         self.add = ""
         self.headlines = []
+        self.blacklist = ["episode", "onion", "horoscope", "report", "this week in"]
 	
     def populate(self,amount=None):
         if os.path.isfile("./onion.pickle"):
@@ -22,9 +23,8 @@ class onion:
             work = text.split('class="js_entry-link">')
             work = [j.split("</a")[0].replace("<em>", "").replace("</em>", "").strip() for j in work][1:]
             for hl in work:
-                if "episode" not in hl.lower() and "onion" not in hl.lower() and "horoscope" not in hl.lower() and "report" not in hl.lower():
-                    if "This week in" not in hl.lower():
-                        self.headlines.append(hl)
+                if hl.lower() not in self.blacklist:
+                    self.headlines.append(hl)
 
             self.add = text.split('class="load-more__button">')[1].split('href="')[1].split('">')[0]
 
@@ -39,10 +39,8 @@ class onion:
         for hl in work:
             if hl in self.headlines:
                 continue
-            else:
-                if "episode" not in hl.lower() and "onion" not in hl.lower() and "horoscope" not in hl.lower() and "report" not in hl.lower():
-                    if "This week in" not in hl.lower():
-                        self.headlines.append(hl)
+            elif hl.lower() not in self.blacklist:
+                self.headlines.append(hl)
 
         with open("./onion.pickle", "wb") as f:
             pickle.dump(self.headlines, f)

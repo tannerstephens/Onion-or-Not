@@ -1,4 +1,4 @@
-import datetime, json, oniony, random, sched, time
+import datetime, json, oniony, random, time
 from flask import Flask
 
 onion = oniony.onion()
@@ -7,15 +7,18 @@ onion.populate(1000)
 notonion = oniony.notonion()
 notonion.populate()
 
-s = sched.scheduler(time.time, time.sleep)
+update = time.time()
 
 def reload():
     onion.refresh()
     notonion.refresh()
-    s.enter(86400, 1, reload)
+    update = time.time()
 	
 
 def chal():
+    if time.time() >= update + 86400:
+        reload()
+    
     real = bool(random.randint(0,1))
 	
     if real:
@@ -26,8 +29,6 @@ def chal():
     title = title.encode("ascii", "ignore").decode()
 	
     return json.dumps({"headline" : title, "onion" : real})
-
-s.enter(86400, 1, reload)
 	
 app = Flask(__name__)
 
