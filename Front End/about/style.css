@@ -35,12 +35,14 @@ form {
 }
 
 a:link, a:visited, a:active {
-	color: black;
+	color: grey;
 	font-family: 'Muli', sans-serif;
+	text-decoration:  none;
 }
 
 a:hover {
 	color: #990000;
+	text-decoration: underline;
 }
 
 a.footer {

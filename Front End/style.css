@@ -73,17 +73,15 @@ form {
 	margin: auto;
 }
 
-a {
-	font-size: 3vmin;
-}
-
 a:link, a:visited, a:active {
-	color: black;
+	color: grey;
 	font-family: 'Muli', sans-serif;
+	text-decoration:  none;
 }
 
 a:hover {
 	color: #990000;
+	text-decoration: underline;
 }
 
 a.footer {
@@ -91,4 +89,5 @@ a.footer {
 	bottom: 0;
 	right: 0;
 	padding: 1.5%;
+	font-size: 3vmin;
 }
