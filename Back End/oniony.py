@@ -57,16 +57,20 @@ class notonion:
         reddit = praw.Reddit(client_id=user_id, client_secret=user_secret, user_agent="Onion or Not")
         self.nottheonion = reddit.subreddit("nottheonion")
         self.headlines = []
+        self.blacklist = ["onion"]
 
     def populate(self):
         if os.path.isfile("./notonion.pickle"):
             with open("./notonion.pickle", "rb") as f:
                 self.headlines = pickle.load(f)
+
+        self.clean()
         
         for post in self.nottheonion.new(limit=1000):
             if not post.stickied:
                 if post.title not in self.headlines:
-                    self.headlines.append(post.title)
+                    if True not in [word in post.title.lower() for word in self.blacklist]:
+                        self.headlines.append(post.title)
 
         with open("./notonion.pickle", "wb") as f:
             pickle.dump(self.headlines, f)
@@ -79,6 +83,13 @@ class notonion:
 
         with open("./notonion.pickle", "wb") as f:
             pickle.dump(self.headlines, f)
+
+    def clean(self):
+        new = []
+        for hl in self.headlines:
+            if True not in [word in post.title.lower() for word in self.blacklist]:
+                new.append(post.title)
+        self.headlines = new[:]
 
     def random_hl(self):
         return random.choice(self.headlines)
