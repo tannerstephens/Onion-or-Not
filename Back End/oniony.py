@@ -87,8 +87,8 @@ class notonion:
     def clean(self):
         new = []
         for hl in self.headlines:
-            if True not in [word in post.title.lower() for word in self.blacklist]:
-                new.append(post.title)
+            if True not in [word in hl for word in self.blacklist]:
+                new.append(hl)
         self.headlines = new[:]
 
     def random_hl(self):
