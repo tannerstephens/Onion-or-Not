@@ -1,6 +1,8 @@
 import requests, html, random, praw, pickle
 import os
 
+path = os.path.dirname(os.path.realpath(__file__))
+
 class onion:
     def __init__(self):
         self.url = "https://www.theonion.com/"
@@ -9,8 +11,8 @@ class onion:
         self.blacklist = ["episode", "onion", "horoscope", "report", "this week in"]
 	
     def populate(self,amount=None):
-        if os.path.isfile("./onion.pickle"):
-            with open("./onion.pickle", "rb") as f:
+        if os.path.isfile(path + "/onion.pickle"):
+            with open(path + "/onion.pickle", "rb") as f:
                 self.headlines = pickle.load(f)
 
         
@@ -28,7 +30,7 @@ class onion:
 
             self.add = text.split('class="load-more__button">')[1].split('href="')[1].split('">')[0]
 
-        with open("./onion.pickle", "wb") as f:
+        with open(path + "/onion.pickle", "wb") as f:
             pickle.dump(self.headlines, f)
         
     def refresh(self):
@@ -42,7 +44,7 @@ class onion:
             elif hl.lower() not in self.blacklist:
                 self.headlines.append(hl)
 
-        with open("./onion.pickle", "wb") as f:
+        with open(path + "/onion.pickle", "wb") as f:
             pickle.dump(self.headlines, f)
 
     def random_hl(self):
@@ -60,8 +62,8 @@ class notonion:
         self.blacklist = ["onion"]
 
     def populate(self):
-        if os.path.isfile("./notonion.pickle"):
-            with open("./notonion.pickle", "rb") as f:
+        if os.path.isfile(path + "/notonion.pickle"):
+            with open(path + "/notonion.pickle", "rb") as f:
                 self.headlines = pickle.load(f)
 
         self.clean()
@@ -72,7 +74,7 @@ class notonion:
                     if True not in [word in post.title.lower() for word in self.blacklist]:
                         self.headlines.append(post.title)
 
-        with open("./notonion.pickle", "wb") as f:
+        with open(path + "/notonion.pickle", "wb") as f:
             pickle.dump(self.headlines, f)
 
     def refresh(self):
@@ -81,7 +83,7 @@ class notonion:
                 if post.title not in self.headlines:
                     self.headlines.append(post.title)
 
-        with open("./notonion.pickle", "wb") as f:
+        with open(path + "/notonion.pickle", "wb") as f:
             pickle.dump(self.headlines, f)
 
     def clean(self):

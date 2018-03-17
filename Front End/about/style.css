@@ -28,6 +28,7 @@ input[type=button] {
 
 h1, p {
 	font-family: 'Muli', sans-serif;
+	max-width: 50%;
 }
 
 form {
